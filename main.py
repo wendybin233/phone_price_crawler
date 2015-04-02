@@ -23,18 +23,26 @@ def readFile():
 
 
 def crawler(id, phoneBrand, phoneId):
-    query = phoneBrand + phoneId
-    param = {'q' : query.decode('utf-8').encode('gb2312')}
-    r = requests.get(searchUrl + urllib.urlencode(param) )
-    d = pq(r.text)
+    price = crawlerImp(phoneBrand + ' ' + phoneId)
+    if not price:
+        price = crawlerImp(phoneId)
 
-    result = d('div.dRise i.big').eq(0)
+    if not price:
+        price = '无'
+    else:
+        price = price.text().encode('utf-8')
 
     prefix = id + '\t' + phoneBrand + '\t' + phoneId
-    if result:
-        print prefix + '\t' + result.text().encode('utf-8')
-    else:
-        print prefix + '\t' + '无'
+    print prefix + '\t' + price
+
+def crawlerImp(query):
+    param = {'q' : query.decode('utf-8').encode('gb2312')}
+    r = requests.get(searchUrl + urllib.urlencode(param))
+    d = pq(r.text)
+    result = d('div.dRise i.big').eq(0)
+    return result
+
+
 
 
 
