@@ -43,7 +43,7 @@ def crawlerImp(query):
         result = d('div.dRise i.big').eq(0)
         return result
     except:
-        return NULL
+        return None
 
 
 if __name__ == '__main__':
