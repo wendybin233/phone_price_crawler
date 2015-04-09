@@ -57,7 +57,7 @@ def crawlerImp(query):
     size = len(find_more)
     more_link = ''
     for i in range(size):
-        link = find_more.eq(i + 1)
+        link = find_more.eq(i)
         if link and link.text().encode('utf-8') == '更多参数>>':
             more_link = link.attr('href')
 
