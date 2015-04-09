@@ -23,10 +23,11 @@ def readFile():
 def crawler(id, phoneBrand, phoneId):
     (mode, price, screen, cpu, memory) = crawlerImp(phoneId)
     if mode == 'n':
-        (mode, price, screen, cpu, memory) = crawlerImp(phoneBrand + ' ' + phoneId)
+        (mode, price, screen, cpu, memory) = crawlerImp(
+            phoneBrand + ' ' + phoneId)
         if mode == 'n':
             ## not phone
-            (mode, price, screen, cpu, memory)  = ('n', 'n', 'n', 'n', 'n')
+            (mode, price, screen, cpu, memory) = ('n', 'n', 'n', 'n', 'n')
 
     prefix = id + '\t' + phoneBrand + '\t' + phoneId
     print prefix + '\t' + mode + '\t' + price + '\t' + screen + '\t' + cpu + '\t' + memory
@@ -39,7 +40,7 @@ def crawlerImp(query):
     except:
         query_encode = query
 
-    param = {'keyword': query_encode, 'c' : 'SearchList'}
+    param = {'keyword': query_encode, 'c': 'SearchList'}
     r = requests.get(searchUrl + urllib.urlencode(param))
     d = pq(r.text)
     price = 'n'
@@ -50,7 +51,7 @@ def crawlerImp(query):
     if d('div.price-box').eq(0):
         price = d('div.price-box').eq(0)('b.price-type').text().encode('utf-8')
     find_more = d('ul.param').eq(0)('li a')
-    
+
     if not find_more:
         return (price, cpu, screen, mode, memory)
     size = len(find_more)
@@ -71,26 +72,28 @@ def crawlerImp(query):
         detail = paras.eq(j)
         if not detail:
             continue
-        
+
         if detail('span.param-name').text().encode('utf-8') == 'CPU型号':
-            cpu = detail('span.param-name').siblings('span').eq(0).text().encode('utf-8')
-          
+            cpu = detail(
+                'span.param-name').siblings('span').eq(0).text().encode('utf-8')
+
         elif detail('span.param-name').text().encode('utf-8') == '主屏尺寸':
-            screen = detail('span.param-name').siblings('span').eq(0).text().encode('utf-8')
-         
+            screen = detail(
+                'span.param-name').siblings('span').eq(0).text().encode('utf-8')
+
         elif detail('span.param-name').text().encode('utf-8') == 'RAM容量':
-            memory = detail('span.param-name').siblings('span').eq(0).text().encode('utf-8')
-         
+            memory = detail(
+                'span.param-name').siblings('span').eq(0).text().encode('utf-8')
+
         elif detail('span.param-name').text().encode('utf-8') == '4G网络':
             mode = '4G'
-      
+
         elif detail('span.param-name').text().encode('utf-8') == '3G网络':
             if detail('span.param-name').siblings('span').eq(0).text().encode('utf-8').find('CDMA') > 0:
                 mode = '3G'
             else:
                 mode = '2G'
 
-    
     return (mode, price, screen, cpu, memory)
 
         # find cpu

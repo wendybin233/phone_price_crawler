@@ -5,7 +5,7 @@ from pyquery import PyQuery as pq
 from lxml import etree
 
 searchUrl = "http://ks.pconline.com.cn/product.shtml?"
-phone_id_name = "phone.txt"
+phone_id_name = "phone_19119.txt"
 
 
 def readFile():
@@ -23,10 +23,11 @@ def readFile():
 def crawler(id, phoneBrand, phoneId):
     (mode, price, screen, cpu, memory) = crawlerImp(phoneId)
     if mode == 'n':
-        (mode, price, screen, cpu, memory) = crawlerImp(phoneBrand + ' ' + phoneId)
+        (mode, price, screen, cpu, memory) = crawlerImp(
+            phoneBrand + ' ' + phoneId)
         if mode == 'n':
             ## not phone
-            (mode, price, screen, cpu, memory)  = ('n', 'n', 'n', 'n', 'n')
+            (mode, price, screen, cpu, memory) = ('n', 'n', 'n', 'n', 'n')
 
     prefix = id + '\t' + phoneBrand + '\t' + phoneId
     print prefix + '\t' + mode + '\t' + price + '\t' + screen + '\t' + cpu + '\t' + memory
@@ -45,7 +46,7 @@ def crawlerImp(query):
     param = {'q': query_encode}
     r = requests.get(searchUrl + urllib.urlencode(param))
     d = pq(r.text)
-    
+
     if d('div.dRise i.big').eq(0):
         price = d('div.dRise i.big').eq(0).text().encode('utf-8')
     find_more = d('dl.dlInfor').eq(0)
@@ -83,10 +84,6 @@ def crawlerImp(query):
                     mode = '2G'
 
     return (mode, price, screen, cpu, memory)
-
-        # find cpu
-        #more_d = more_d('table.paramTable')
-        # print more_d.text().encode('utf-8')
 
 
 if __name__ == '__main__':
