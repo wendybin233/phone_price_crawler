@@ -89,16 +89,17 @@ def crawlerImp(query):
             mode = '4G'
 
         elif detail('span.param-name').text().encode('utf-8') == '3G网络':
-            if detail('span.param-name').siblings('span').eq(0).text().encode('utf-8').find('CDMA') > 0:
+            if detail('span.param-name').siblings('span').eq(0).text().encode(
+                'utf-8').find('CDMA') > 0:
                 mode = '3G'
             else:
                 mode = '2G'
 
     return (mode, price, screen, cpu, memory)
 
-        # find cpu
-        #more_d = more_d('table.paramTable')
-        # print more_d.text().encode('utf-8')
+    # find cpu
+    #more_d = more_d('table.paramTable')
+    # print more_d.text().encode('utf-8')
 
 
 if __name__ == '__main__':

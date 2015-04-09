@@ -57,7 +57,7 @@ def crawlerImp(query):
         more_link = more_link.attr('href')
         k = more_link.rfind('/')
         more_3g_link = 'http://product.3g.pconline.com.cn/mobile/motorola/' + \
-            more_link[k+1:]
+            more_link[k + 1:]
 
         more_r = requests.get(more_3g_link.encode('utf-8'))
         more_d = pq(more_r.text)
